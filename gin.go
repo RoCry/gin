@@ -187,7 +187,7 @@ func New() *Engine {
 	}
 	engine.RouterGroup.engine = engine
 	engine.pool.New = func() interface{} {
-		return engine.allocateContext()
+		return engine.allocateContext(engine.maxParams)
 	}
 	return engine
 }
@@ -200,8 +200,8 @@ func Default() *Engine {
 	return engine
 }
 
-func (engine *Engine) allocateContext() *Context {
-	v := make(Params, 0, engine.maxParams)
+func (engine *Engine) allocateContext(maxParams uint16) *Context {
+	v := make(Params, 0, maxParams)
 	return &Context{engine: engine, params: &v}
 }
 
