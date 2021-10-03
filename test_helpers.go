@@ -14,3 +14,11 @@ func CreateTestContext(w http.ResponseWriter) (c *Context, r *Engine) {
 	c.writermem.reset(w)
 	return
 }
+
+// CreateTestContextOnly returns a fresh context base on the engine for testing purposes
+func CreateTestContextOnly(w http.ResponseWriter, r *Engine) (c *Context) {
+	c = r.allocateContext()
+	c.reset()
+	c.writermem.reset(w)
+	return
+}

@@ -2354,3 +2354,17 @@ func TestContextAddParam(t *testing.T) {
 	assert.Equal(t, ok, true)
 	assert.Equal(t, value, v)
 }
+
+func TestCreateTestContextWithRouteParams(t *testing.T) {
+	w := httptest.NewRecorder()
+	engine := New()
+	engine.GET("/:action/:name", func(ctx *Context) {
+		ctx.String(http.StatusOK, "%s %s", ctx.Param("action"), ctx.Param("name"))
+	})
+	c := CreateTestContextOnly(w, engine)
+	c.Request, _ = http.NewRequest(http.MethodGet, "/hello/gin", nil)
+	engine.HandleContext(c)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Equal(t, "hello gin", w.Body.String())
+}

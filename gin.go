@@ -201,7 +201,7 @@ func New() *Engine {
 		trustedProxies:         []string{"0.0.0.0/0", "::/0"},
 		trustedCIDRs:           defaultTrustedCIDRs,
 	}
-	engine.RouterGroup.engine = engine
+	engine.RouterGroup.engine = engine)
 	engine.pool.New = func() any {
 		return engine.allocateContext()
 	}
